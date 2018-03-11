@@ -9,7 +9,12 @@ BrownRobinson::BrownRobinson()
 	bStrategy = 1;
 	e = 0.8;
 
-	int tempMatrix[height][width] = { {1, 17, 18}, {14, 6, 16}, {14, 14, 13} };
+	int tempMatrix[height][width] = { {1, 17, 18}, 
+									  {14, 6, 16},
+									  {14, 14, 13} };
+	float tempInverseMatrix[width][height] = { { -0.0565, 0.012, 0.0635 },
+											   { 0.0163, -0.0925, 0.0913 },
+											   { 0.0433, 0.0867, -0.0898 } };
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
@@ -18,10 +23,20 @@ BrownRobinson::BrownRobinson()
 		}
 	}
 
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			inverseMatrix[i][j] = tempInverseMatrix[i][j];
+		}
+	}
+
 	memset(aPrize, 0, sizeof(int) * width);
 	memset(aMixedStrategy, 0, sizeof(int) * width);
 	memset(bLoss, 0, sizeof(int) * height);
 	memset(bMixedStrategy, 0, sizeof(int) * height);
+	memset(x, 0, sizeof(int) * height);
+	memset(y, 0, sizeof(int) * width);
 
 
 	
@@ -41,7 +56,25 @@ void BrownRobinson::calculate()
 {
 	float delta = 1 + e;
 	cout.setf(ios::fixed);
-	
+
+	cout << "Analityc method" << endl;
+
+	analitycalMethod();
+
+	for (int i = 0; i < height; i++)
+	{
+		cout << "X" << i + 1 << x[i] << "   ";
+	}
+	cout << endl;
+
+	for (int i = 0; i < width; i++)
+	{
+		cout << "Y" << i + 1 << y[i] << "   ";
+	}
+	cout << endl << "V = " << gamePrice << endl;
+
+	system("pause");
+
 	while (delta > e)
 	{
 		countPrize();
@@ -106,6 +139,28 @@ void BrownRobinson::countLoss()
 	{
 		bLoss[i] += matrix[i][aStrategy - 1];
 	}
+}
+
+void BrownRobinson::analitycalMethod()
+{
+	float tempValue = 0;
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			x[i] += inverseMatrix[i][j];
+			y[i] += inverseMatrix[j][i];
+		}
+		tempValue += x[i];
+	}
+	gamePrice = 1 / tempValue;
+
+	for (int i = 0; i < height; i++)
+	{
+		x[i] *= gamePrice;
+		y[i] *= gamePrice;
+	}
+
 }
 
 int BrownRobinson::findMaxPrizeIndex()

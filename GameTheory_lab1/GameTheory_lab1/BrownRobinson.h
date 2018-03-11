@@ -28,6 +28,11 @@ private:
 	float	vAverage;
 	float	e;					 // эпсилон ошибка
 	int     matrix[height][width];
+	float   inverseMatrix[width][height];
+	float   gamePrice;
+	float   x[height];
+	float   y[width];	
+
 
 public:
 	BrownRobinson();
@@ -39,6 +44,7 @@ public:
 private:
 	void countPrize();
 	void countLoss();
+	void analitycalMethod();
 	int  findMaxPrizeIndex();
 	int  findMinLossIndex();
 };
