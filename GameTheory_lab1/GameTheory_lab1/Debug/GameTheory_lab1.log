@@ -1,8 +1,0 @@
-﻿  BrownRobinson.cpp
-c:\users\arnex\documents\git\gametheorylab1\gametheory_lab1\gametheory_lab1\brownrobinson.cpp(10): warning C4305: =: усечение из "double" в "float"
-c:\users\arnex\documents\git\gametheorylab1\gametheory_lab1\gametheory_lab1\brownrobinson.cpp(17): warning C4838: преобразование из "double" в "float" требует сужающего преобразования
-c:\users\arnex\documents\git\gametheorylab1\gametheory_lab1\gametheory_lab1\brownrobinson.cpp(17): warning C4305: инициализация: усечение из "double" в "float"
-c:\users\arnex\documents\git\gametheorylab1\gametheory_lab1\gametheory_lab1\brownrobinson.cpp(104): warning C4244: =: преобразование "double" в "float", возможна потеря данных
-c:\users\arnex\documents\git\gametheorylab1\gametheory_lab1\gametheory_lab1\brownrobinson.cpp(185): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-c:\users\arnex\documents\git\gametheorylab1\gametheory_lab1\gametheory_lab1\brownrobinson.cpp(219): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  GameTheory_lab1.vcxproj -> C:\Users\arnex\Documents\Git\GameTheoryLab1\GameTheory_lab1\Debug\GameTheory_lab1.exe
