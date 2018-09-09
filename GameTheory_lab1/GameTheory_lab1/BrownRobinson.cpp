@@ -1,67 +1,47 @@
 #include "BrownRobinson.h"
+
 using namespace std;
 
-
-BrownRobinson::BrownRobinson()
-{
-	index = 1;
-	aStrategy = 1;
-	bStrategy = 1;
-	e = 0.8;
-
-	int tempMatrix[height][width] = { {1, 17, 18}, {14, 6, 16}, {14, 14, 13} };
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-		{
-			matrix[i][j] = tempMatrix[i][j];
-		}
-	}
-
-	memset(aPrize, 0, sizeof(int) * width);
-	memset(aMixedStrategy, 0, sizeof(int) * width);
-	memset(bLoss, 0, sizeof(int) * height);
-	memset(bMixedStrategy, 0, sizeof(int) * height);
-
-
-	
-}
-
-
-BrownRobinson::~BrownRobinson()
-{
-}
-
-void BrownRobinson::set_E(float value)
-{
-	this->e = value;
-}
+BrownRobinson::BrownRobinson(std::array<std::array<int, height>, width> _matrix, float _e) :
+  matrix(_matrix),
+  index(1),
+  aStrategy(1),
+  bStrategy(1),
+  aPrize(),
+  bLoss(),
+  aMixedStrategy(),
+  bMixedStrategy(),
+  vLower(0),
+  vUpper(0),
+  vAverage(0),
+  e(_e)
+{}
 
 void BrownRobinson::calculate()
 {
 	float delta = 1 + e;
 	cout.setf(ios::fixed);
 	
-	while (delta > e)
+	do
 	{
 		countPrize();
 		countLoss();
 		aMixedStrategy[aStrategy - 1]++;
 		bMixedStrategy[bStrategy - 1]++;
 
-		cout << index << "    X" << aStrategy << "    Y" << bStrategy << "    |    ";
+		cout << index << "\tX" << aStrategy << "\tY" << bStrategy << "\t|\t";
 
 		for (int i = 0; i < width; i++)
 		{
-			cout << aPrize[i] << "    ";
+			cout << aPrize[i] << "\t";
 		}
-		cout << "|    ";
+		cout << "|\t";
 
 		for (int i = 0; i < height; i++)
 		{
-			cout << bLoss[i] << "    ";
+			cout << bLoss[i] << "\t";
 		}
-		cout << "|    ";
+		cout << "|\t";
 
 		aStrategy = findMaxPrizeIndex() + 1;
 		bStrategy = findMinLossIndex() + 1;
@@ -71,23 +51,26 @@ void BrownRobinson::calculate()
 		vAverage = (vLower + vUpper) / 2.0;
 		delta = vUpper - vLower;
 		cout << setprecision(3);
-		cout << vUpper << "    " << vLower << "    " << vAverage << "    |    " << delta << endl;
+		cout << vUpper << "\t" << vLower << "\t" << vAverage << "\t|\t" << delta << endl;
 		index++;
-	}
-	index--;
+  } while (delta > e);
+	
+
 	cout << "A mixed strategy (";
-	for (int i = 0; i < width; i++)
+	
+  for (int i = 0; i < width; i++)
 	{
 		aMixedStrategy[i] /= (float)index;
 		cout << aMixedStrategy[i] << "  ";
 	}
 	cout << ")" << endl << "B mixed strategy (";
-	for (int i = 0; i < height; i++)
+	
+  for (int i = 0; i < height; i++)
 	{
 		bMixedStrategy[i] /= (float)index;
 		cout << bMixedStrategy[i] << "  ";
 	}
-	cout << ")";
+	cout << ")" << endl;
 	
 }
 
